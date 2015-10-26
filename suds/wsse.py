@@ -130,11 +130,12 @@ class UsernameToken(Token):
         """
         if text is None:
             s = []
-            s.append(self.username.encode())
-            s.append(self.password.encode())
-            s.append(Token.sysdate().encode())
+            s.append(self.username)
+            s.append(self.password)
+            s.append(Token.sysdate())
+            text = ':'.join(s)
             m = md5()
-            m.update(':'.join(s))
+            m.update(text.encode())
             self.nonce = m.hexdigest()
         else:
             self.nonce = text
